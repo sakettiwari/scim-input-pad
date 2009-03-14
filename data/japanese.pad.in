@@ -25,7 +25,7 @@ COLUMNS = 5
 ぱ ぴ ぷ ぺ ぽ
 ぁ ぃ ぅ ぇ ぉ
 ゃ *  ゅ *  ょ
-ッ ー * * * 
+っ ー * * * 
 END_TABLE
 
 BEGIN_TABLE
