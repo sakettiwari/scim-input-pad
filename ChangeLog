@@ -1,2 +1,55 @@
-2008-09-15: yurivict yuri@tsoft.com
-	* configure.ac: removed 'nl' that doesn't have corresponding po/nl.po
+2008-09-15 10:59  yurivict
+
+	* ChangeLog, configure.ac: Removed 'nl' because po/nl.po is
+	  missing.
+
+2008-09-14 20:53  yurivict
+
+	* ChangeLog: Added missing ChangeLog files needed for auto*-tools
+
+2008-08-26 04:24  juhp
+
+	* configure.ac: add nl translation from Ronald Stroethoff
+
+2007-06-22 20:46  suzhe
+
+	* ., ABOUT-NLS, AUTHORS, COPYING, ChangeLog.old, INSTALL,
+	  Makefile.am, NEWS, README, bootstrap, config.rpath, configure.ac,
+	  data, data/Makefile.am, data/base.pad.in, data/chinese.pad.in,
+	  data/input-pad.png, data/japanese.pad.in, data/keyboard.pad.in,
+	  data/scim-input-pad.in, developers, intl, intl/ChangeLog,
+	  intl/Makefile.in, intl/VERSION, intl/bindtextdom.c,
+	  intl/config.charset, intl/dcgettext.c, intl/dcigettext.c,
+	  intl/dcngettext.c, intl/dgettext.c, intl/dngettext.c,
+	  intl/eval-plural.h, intl/explodename.c, intl/finddomain.c,
+	  intl/gettext.c, intl/gettextP.h, intl/gmo.h, intl/hash-string.h,
+	  intl/intl-compat.c, intl/l10nflist.c, intl/libgnuintl.h.in,
+	  intl/loadinfo.h, intl/loadmsgcat.c, intl/localcharset.c,
+	  intl/localcharset.h, intl/locale.alias, intl/localealias.c,
+	  intl/localename.c, intl/log.c, intl/ngettext.c, intl/os2compat.c,
+	  intl/os2compat.h, intl/osdep.c, intl/plural-exp.c,
+	  intl/plural-exp.h, intl/plural.c, intl/plural.y,
+	  intl/printf-args.c, intl/printf-args.h, intl/printf-parse.c,
+	  intl/printf-parse.h, intl/printf.c, intl/ref-add.sin,
+	  intl/ref-del.sin, intl/relocatable.c, intl/relocatable.h,
+	  intl/textdomain.c, intl/vasnprintf.c, intl/vasnprintf.h,
+	  intl/vasnwprintf.h, intl/wprintf-parse.h, intl/xsize.h,
+	  intltool-extract.in, intltool-merge.in, intltool-update.in, m4,
+	  m4/Makefile.am, m4/codeset.m4, m4/gettext.m4, m4/glibc21.m4,
+	  m4/iconv.m4, m4/intdiv0.m4, m4/intltool.m4, m4/intmax.m4,
+	  m4/inttypes-pri.m4, m4/inttypes.m4, m4/inttypes_h.m4,
+	  m4/isc-posix.m4, m4/lcmessage.m4, m4/lib-ld.m4, m4/lib-link.m4,
+	  m4/lib-prefix.m4, m4/longdouble.m4, m4/longlong.m4, m4/nls.m4,
+	  m4/po.m4, m4/printf-posix.m4, m4/progtest.m4, m4/signed.m4,
+	  m4/size_max.m4, m4/stdint_h.m4, m4/uintmax_t.m4, m4/ulonglong.m4,
+	  m4/wchar_t.m4, m4/wint_t.m4, m4/xsize.m4, mkinstalldirs, po,
+	  po/Makefile.in.in, po/Makevars, po/POTFILES.in, po/Rules-quot,
+	  po/boldquot.sed, po/de.po, po/en@boldquot.header,
+	  po/en@quot.header, po/fr.po, po/insert-header.sin, po/it.po,
+	  po/ja.po, po/pa.po, po/quot.sed, po/remove-potcdate.sin,
+	  po/scim-input-pad.pot, po/zh_CN.po, po/zh_TW.po,
+	  scim-input-pad.spec.in, src, src/Makefile.am,
+	  src/scim_input_group.cpp, src/scim_input_group.h,
+	  src/scim_input_pad.cpp, svn2cl.sh, svn2cl.xsl: Initial import
+	  into SVN repository.
+
