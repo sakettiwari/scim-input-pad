@@ -23,14 +23,62 @@ icon_DATA		= input-pad.png
 bin_SCRIPTS		= scim-input-pad
 
 INPUT_PAD_SOURCE_FILES	= base.pad.in \
+			  keyboard.pad.in \
 			  japanese.pad.in \
-			  chinese.pad.in \
-			  keyboard.pad.in
+			  chinese.pad,in \
+			  korea.pad.in \
+			  arabian.pad.in \
+			  russian.pad.in \
+			  india_bengali.pad.in \
+			  india_chiki.pad.in \
+			  india_devanagari.pad.in \
+			  india_gujarati.pad.in \
+			  india_gurmukhi.pad.in \
+			  india_kannada.pad.in \
+			  india_lepcha.pad.in \
+			  india_limbu.pad.in \
+			  india_malayalam.pad.in \
+			  india_oriya.pad.in \
+			  india_saurashtra.pad.in \
+			  india_sinhala.pad.in \
+			  india_syloti_nagri.pad.in \
+			  india_tamil.pad.in \
+			  india_telugu.in \
+			  balinese.pad.in \
+			  buginese.pad.in \
+			  cham.pad.in \
+			  kayah.pad.in \
+			  khmer.pad.in \
+			  lao.pad.in
 
 INPUT_PAD_DEST_FILES    = base.pad \
+			  keyboard.pad \
 			  japanese.pad \
 			  chinese.pad \
-			  keyboard.pad
+			  korea.pad \
+			  arabian.pad \
+			  russian.pad \
+			  india_bengali.pad \
+			  india_chiki.pad \
+			  india_devanagari.pad \
+			  india_gujarati.pad \
+			  india_gurmukhi.pad \
+			  india_kannada.pad \
+			  india_lepcha.pad \
+			  india_limbu.pad \
+			  india_malayalam.pad \
+			  india_oriya.pad \
+			  india_saurashtra.pad \
+			  india_sinhala.pad \
+			  india_syloti_nagri.pad \
+			  india_tamil.pad \
+			  india_telugu \
+			  balinese.pad \
+			  buginese.pad \
+			  cham.pad \
+			  kayah.pad \
+			  khmer.pad \
+			  lao.pad
 
 scim_input_pad_datadir	= @SCIM_INPUT_PAD_DATADIR@
 scim_input_pad_data_DATA= $(INPUT_PAD_DEST_FILES)
