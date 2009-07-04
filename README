@@ -6,13 +6,37 @@ It's an onscreen input pad used to input some symbols very easily.
 All symbols are stored into pure text files. Several predefined files
 are shipped within this package. They are:
 
-data/base.pad        includes some common symbols,
-                     eg. Technical Symbols, Punctuations etc.
-data/japanese.pad    includes Japanese Katakana and Hiragana symbols.
-data/chinese.pad     includes Chinese numbers, radicals etc.
-data/keyboard.pad    includes some special keyboard events,
-                     like dead keys, composing keys etc.
+data/base.pad                includes some common symbols,
+                             eg. Technical Symbols, Punctuations etc.
+data/keyboard.pad            includes some special keyboard events,
+                             like dead keys, composing keys etc.
+data/japanese.pad            includes Japanese Katakana and Hiragana symbols.
+data/chinese.pad             includes Chinese numbers, radicals etc.
+data/korea.pad               includes from Korean the letters, Hangul Jamo, Hangul Compatibility Jamo, Halfwith/fullwith
+data/arabian                 includes the Arabian script
+data/russian                 includes the Russian script
+data/india_bengali.pad       includes the Bengali script from India
+data/india_chiki.pad         includes the Ol Chiki script from India
+data/india_devanagari.pad    includes the Devanagari script from India
+data/india_gujarati.pad      includes the Gujarati script from India
+data/india_gurmukhi.pad      includes the Gurmukhi script from India
+data/india_kannada.pad       includes the Kannada script from India
+data/india_lepcha.pad        includes the Lepcha script from India
+data/india_limbu.pad         includes the Limbu script from India
+data/india_malayalam.pad     includes the Malayalam script from India
+data/india_oriya.pad         includes the Oriya script from India
+data/india_saurashtra.pad    includes the Saurashtra script from India
+data/india_sinhala.pad       includes the Sinhala script from India
+data/india_syloti_nagri.pad  includes the Syloti Nagri script from India
+data/india_tamil.pad         includes the Tamil script from India
+data/india_telugu            includes the Telugu script from India
 
+data/balinese.pad            includes the Balinese script from Indonesia
+data/buginese.pad            includes the Buginese script from Sulawesi in Indonesia
+data/cham.pad                includes the Cham script from Vietnam and Cambodia
+data/kayah.pad               includes the Kayah Li script from the Karen in Myanmar (Birma) and in Thailand
+data/khmer.pad               includes the Khmer script from Cambodia
+data/lao.pad                 includes the Lao script from Laos
 
 The format of the file is:
 
@@ -50,8 +74,8 @@ this table should be shown.
 The format of the symbols can be:
 
 1. UTF-8 encoded strings, separated by space or return. Like:
-一 二 三
-四 五 六
+äž äº äž
+å äº å­
 
 2. Hex number of the unicode codes, separated by space or return. Like;
 0x3001 0x3002 0x3003
@@ -66,3 +90,12 @@ The format of the symbols can be:
 You are always welcome to contribute us new symbol files, suggestions and bug reports.
 
 Visit http://www.scim-im.org for details.
+
+more information about the UTF-8 codes of scripts can be found at:
+http://www.unicode.org/charts/
+
+Do not forget that also the proper fonts must be installed, otherwise the  scripts will not be shown.
+Som places where free fonts can be found are:
+http://www.wazu.jp/index.html
+http://www.fileformat.info/info/unicode/font/index.htm
+http://omniglot.com/writing/index.htm
