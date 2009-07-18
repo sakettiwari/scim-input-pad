@@ -49,7 +49,13 @@ INPUT_PAD_SOURCE_FILES	= base.pad.in \
 			  cham.pad.in \
 			  kayah.pad.in \
 			  khmer.pad.in \
-			  lao.pad.in
+			  lao.pad.in \
+			  myanmar.pad.in \
+			  tai_lue.pad.in \
+			  rejang.pad.in \
+			  sundanese.pad.in \
+			  tai_le.pad.in \
+			  thai.pad.in
 
 INPUT_PAD_DEST_FILES    = base.pad \
 			  keyboard.pad \
@@ -78,7 +84,13 @@ INPUT_PAD_DEST_FILES    = base.pad \
 			  cham.pad \
 			  kayah.pad \
 			  khmer.pad \
-			  lao.pad
+			  lao.pad \
+			  myanmar.pad \
+			  tai_lue.pad \
+			  rejang.pad \
+			  sundanese.pad \
+			  tai_le.pad \
+			  thai.pad
 
 scim_input_pad_datadir	= @SCIM_INPUT_PAD_DATADIR@
 scim_input_pad_data_DATA= $(INPUT_PAD_DEST_FILES)
