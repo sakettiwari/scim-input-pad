@@ -12,9 +12,14 @@ data/keyboard.pad            includes some special keyboard events,
                              like dead keys, composing keys etc.
 data/japanese.pad            includes Japanese Katakana and Hiragana symbols.
 data/chinese.pad             includes Chinese numbers, radicals etc.
+Unified CJK Ideographs and CJK Ideographs are for practical reasons not included
 data/korea.pad               includes from Korean the letters, Hangul Jamo, Hangul Compatibility Jamo, Halfwith/fullwith
-data/arabian                 includes the Arabian script
-data/russian                 includes the Russian script
+Hangul Syllables are for practical reason not included
+data/arabian.pad             includes the Arabian script
+data/armenian.pad            includes the Armenian script
+data/georgian.pad            includes the Georgian script from Georgia
+data/russian.pad             includes the Russian script
+data/hebrew.pad              includes the Hebrew script from Israel
 data/india_bengali.pad       includes the Bengali script from India
 data/india_chiki.pad         includes the Ol Chiki script from India
 data/india_devanagari.pad    includes the Devanagari script from India
@@ -36,7 +41,49 @@ data/buginese.pad            includes the Buginese script from Sulawesi in Indon
 data/cham.pad                includes the Cham script from Vietnam and Cambodia
 data/kayah.pad               includes the Kayah Li script from the Karen in Myanmar (Birma) and in Thailand
 data/khmer.pad               includes the Khmer script from Cambodia
+data/mongolian.pad           includes the Mongolian script from Mongolia
 data/lao.pad                 includes the Lao script from Laos
+data/myanmar.pad             includes the Myamar script from Birma
+data/philipine_buhid.pad     includes the Buhid script from the Philipines
+data/philipine_hanunoo.pad   includes the Hanunoo script from the Philipines
+data/philipine_tagalog.pad   includes the Tagalog script from the Philipines
+data/tai_lue.pad             includes the old Thai script from China, Thailand,Birma and Vietnam
+data/rejang.pad              includes the Rejang script from Sumatra in Indonesia
+data/sundanese.pad           includes the Sundanese script from west Java in Indonesia
+data/tai_le.pad              includes the new Thai script from China, Thailand,Birma and Vietnam
+data/thai.pad                includes the Thai script from Thailand
+data/tibet                   includes the Tibet script from Tibet
+
+data/ethiopic.pad	     includes the ethiopian script from ethiopia
+
+The next scripts are not used in daily life (anymore)(they are called dead languages) and therefor not included:
+Ancient Greek Numbers
+Ancient Greek Musical
+Cuneiform
+Old Persian
+Ugaritic
+Aegean
+Carian
+Glagolitic
+Gothic
+Kharoshthi from India
+Lycian
+Lydian
+Phags-Pa from tibet
+Ogham
+Old Italic
+Osmanya from Somali
+Phaistos Disc
+Phoenician
+Runic
+Tagbanwa from Philipines
+
+Take care that appropiate fonts are installed who can represent the required script.
+Without a appropiate font is input-pad of little use.
+Places where these fonts can be found are:
+www.wazu.jp
+www.xenotypetech.com/index.html
+www.omniglot.com
 
 The format of the file is:
 
