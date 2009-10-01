@@ -28,7 +28,7 @@ INPUT_PAD_SOURCE_FILES	= base.pad.in \
 			  chinese.pad,in \
 			  korea.pad.in \
 			  arabian.pad.in \
-			  russian.pad.in \
+			  ethiopic.pad.in \
 			  india_bengali.pad.in \
 			  india_chiki.pad.in \
 			  india_devanagari.pad.in \
@@ -44,13 +44,21 @@ INPUT_PAD_SOURCE_FILES	= base.pad.in \
 			  india_syloti_nagri.pad.in \
 			  india_tamil.pad.in \
 			  india_telugu.in \
+			  armenian.pad.in \
 			  balinese.pad.in \
 			  buginese.pad.in \
 			  cham.pad.in \
+			  georgian.pad.in \
+			  hebrew.pad.in \
 			  kayah.pad.in \
 			  khmer.pad.in \
 			  lao.pad.in \
 			  myanmar.pad.in \
+			  mongolian.pad.in \
+			  philipine_buhid.pad.in \
+			  philipine_hanunoo.pad.in \
+			  philipine_tagalog.pad.in \
+			  russian.pad.in \
 			  tai_lue.pad.in \
 			  rejang.pad.in \
 			  sundanese.pad.in \
@@ -64,7 +72,7 @@ INPUT_PAD_DEST_FILES    = base.pad \
 			  chinese.pad \
 			  korea.pad \
 			  arabian.pad \
-			  russian.pad \
+			  ethiopic.pad \
 			  india_bengali.pad \
 			  india_chiki.pad \
 			  india_devanagari.pad \
@@ -80,13 +88,21 @@ INPUT_PAD_DEST_FILES    = base.pad \
 			  india_syloti_nagri.pad \
 			  india_tamil.pad \
 			  india_telugu \
+			  armenian.pad \
 			  balinese.pad \
 			  buginese.pad \
 			  cham.pad \
+			  georgian.pad \
+			  hebrew.pad \
 			  kayah.pad \
 			  khmer.pad \
 			  lao.pad \
 			  myanmar.pad \
+			  mongolian.pad \
+			  philipine_buhid.pad \
+			  philipine_hanunoo.pad \
+			  philipine_tagalog.pad \
+			  russian.pad \
 			  tai_lue.pad \
 			  rejang.pad \
 			  sundanese.pad \
