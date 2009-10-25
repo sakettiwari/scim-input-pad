@@ -26,7 +26,7 @@ INPUT_PAD_SOURCE_FILES	= base.pad.in \
 			  keyboard.pad.in \
 			  japanese.pad.in \
 			  chinese.pad,in \
-			  korea.pad.in \
+			  korean.pad.in \
 			  arabian.pad.in \
 			  ethiopic.pad.in \
 			  india_bengali.pad.in \
@@ -50,7 +50,7 @@ INPUT_PAD_SOURCE_FILES	= base.pad.in \
 			  cham.pad.in \
 			  georgian.pad.in \
 			  hebrew.pad.in \
-			  kayah.pad.in \
+			  kaya.pad.in \
 			  khmer.pad.in \
 			  lao.pad.in \
 			  myanmar.pad.in \
@@ -70,7 +70,7 @@ INPUT_PAD_DEST_FILES    = base.pad \
 			  keyboard.pad \
 			  japanese.pad \
 			  chinese.pad \
-			  korea.pad \
+			  korean.pad \
 			  arabian.pad \
 			  ethiopic.pad \
 			  india_bengali.pad \
@@ -87,14 +87,14 @@ INPUT_PAD_DEST_FILES    = base.pad \
 			  india_sinhala.pad \
 			  india_syloti_nagri.pad \
 			  india_tamil.pad \
-			  india_telugu \
+			  india_telugu.pad \
 			  armenian.pad \
 			  balinese.pad \
 			  buginese.pad \
 			  cham.pad \
 			  georgian.pad \
 			  hebrew.pad \
-			  kayah.pad \
+			  kaya.pad \
 			  khmer.pad \
 			  lao.pad \
 			  myanmar.pad \
@@ -117,4 +117,6 @@ EXTRA_DIST		= input-pad.png $(INPUT_PAD_SOURCE_FILES)
 
 CLEANFILES		= *.bak scim-input-pad $(INPUT_PAD_DEST_FILES)
 
-%.pad:   %.pad.in 	$(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
+%.pad:   %.pad.in
+    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; \
+    LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
