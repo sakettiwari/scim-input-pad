@@ -31,7 +31,7 @@ data/india_limbu.pad         includes the Limbu script from India
 data/india_malayalam.pad     includes the Malayalam script from India
 data/india_oriya.pad         includes the Oriya script from India
 data/india_saurashtra.pad    includes the Saurashtra script from India
-data/india_sinhala.pad       includes the Sinhala script from India
+data/india_sinhala.pad       includes the Sinhala script from Sri Lanka
 data/india_syloti_nagri.pad  includes the Syloti Nagri script from India
 data/india_tamil.pad         includes the Tamil script from India
 data/india_telugu            includes the Telugu script from India

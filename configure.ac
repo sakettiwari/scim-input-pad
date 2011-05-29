@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-input-pad, 0.1.2, suzhe@tsinghua.org.cn)
+AC_INIT(scim-input-pad, 0.1.3, suzhe@tsinghua.org.cn)
 AC_CONFIG_SRCDIR([src/scim_input_pad.cpp])
 
 SCIM_VERSION=1.2.0
