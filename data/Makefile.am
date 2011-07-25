@@ -22,101 +22,103 @@ icon_DATA		= input-pad.png
 
 bin_SCRIPTS		= scim-input-pad
 
-INPUT_PAD_SOURCE_FILES	= base.pad.in \
-			  keyboard.pad.in \
-			  japanese.pad.in \
-			  chinese.pad,in \
-			  korean.pad.in \
-			  arabian.pad.in \
-			  ethiopic.pad.in \
-			  india_bengali.pad.in \
-			  india_chiki.pad.in \
-			  india_devanagari.pad.in \
-			  india_gujarati.pad.in \
-			  india_gurmukhi.pad.in \
-			  india_kannada.pad.in \
-			  india_lepcha.pad.in \
-			  india_limbu.pad.in \
-			  india_malayalam.pad.in \
-			  india_oriya.pad.in \
-			  india_saurashtra.pad.in \
-			  india_sinhala.pad.in \
-			  india_syloti_nagri.pad.in \
-			  india_tamil.pad.in \
-			  india_telugu.in \
-			  armenian.pad.in \
-			  balinese.pad.in \
-			  buginese.pad.in \
-			  cham.pad.in \
-			  georgian.pad.in \
-			  hebrew.pad.in \
-			  kaya.pad.in \
-			  khmer.pad.in \
-			  lao.pad.in \
-			  myanmar.pad.in \
-			  mongolian.pad.in \
-			  philipine_buhid.pad.in \
-			  philipine_hanunoo.pad.in \
-			  philipine_tagalog.pad.in \
-			  russian.pad.in \
-			  tai_lue.pad.in \
-			  rejang.pad.in \
-			  sundanese.pad.in \
-			  tai_le.pad.in \
-			  thai.pad.in \
+srcdir = .
+top_srcdir = ..
+top_builddir = ..
+
+INPUT_PAD_SOURCE_FILES	= base.pad.in	\
+			  keyboard.pad.in	\
+			  japanese.pad.in	\
+			  chinese.pad,in	\
+			  korean.pad.in		\
+			  arabian.pad.in	\
+			  ethiopic.pad.in	\
+			  india_bengali.pad.in	\
+			  india_chiki.pad.in	\
+			  india_devanagari.pad.in	\
+			  india_gujarati.pad.in		\
+			  india_gurmukhi.pad.in	\
+			  india_kannada.pad.in	\
+			  india_lepcha.pad.in	\
+			  india_limbu.pad.in	\
+			  india_malayalam.pad.in	\
+			  india_oriya.pad.in	\
+			  india_saurashtra.pad.in	\
+			  india_sinhala.pad.in	\
+			  india_syloti_nagri.pad.in	\
+			  india_tamil.pad.in	\
+			  india_telugu.in	\
+			  armenian.pad.in	\
+			  balinese.pad.in	\
+			  buginese.pad.in	\
+			  cham.pad.in		\
+			  georgian.pad.in	\
+			  hebrew.pad.in		\
+			  kaya.pad.in		\
+			  khmer.pad.in		\
+			  lao.pad.in		\
+			  myanmar.pad.in	\
+			  mongolian.pad.in	\
+			  philipine_buhid.pad.in	\
+			  philipine_hanunoo.pad.in	\
+			  philipine_tagalog.pad.in	\
+			  russian.pad.in	\
+			  tai_lue.pad.in	\
+			  rejang.pad.in		\
+			  sundanese.pad.in	\
+			  tai_le.pad.in		\
+			  thai.pad.in		\
 			  tibet.pad.in
 
-INPUT_PAD_DEST_FILES    = base.pad \
-			  keyboard.pad \
-			  japanese.pad \
-			  chinese.pad \
-			  korean.pad \
-			  arabian.pad \
-			  ethiopic.pad \
-			  india_bengali.pad \
-			  india_chiki.pad \
-			  india_devanagari.pad \
-			  india_gujarati.pad \
-			  india_gurmukhi.pad \
-			  india_kannada.pad \
-			  india_lepcha.pad \
-			  india_limbu.pad \
-			  india_malayalam.pad \
-			  india_oriya.pad \
-			  india_saurashtra.pad \
-			  india_sinhala.pad \
-			  india_syloti_nagri.pad \
-			  india_tamil.pad \
-			  india_telugu.pad \
-			  armenian.pad \
-			  balinese.pad \
-			  buginese.pad \
-			  cham.pad \
-			  georgian.pad \
-			  hebrew.pad \
-			  kaya.pad \
-			  khmer.pad \
-			  lao.pad \
-			  myanmar.pad \
-			  mongolian.pad \
-			  philipine_buhid.pad \
-			  philipine_hanunoo.pad \
-			  philipine_tagalog.pad \
-			  russian.pad \
-			  tai_lue.pad \
-			  rejang.pad \
-			  sundanese.pad \
-			  tai_le.pad \
-			  thai.pad \
+INPUT_PAD_DEST_FILES    = base.pad	\
+			  keyboard.pad	\
+			  japanese.pad	\
+			  chinese.pad	\
+			  korean.pad	\
+			  arabian.pad	\
+			  ethiopic.pad	\
+			  india_bengali.pad	\
+			  india_chiki.pad	\
+			  india_devanagari.pad	\
+			  india_gujarati.pad	\
+			  india_gurmukhi.pad	\
+			  india_kannada.pad	\
+			  india_lepcha.pad	\
+			  india_limbu.pad	\
+			  india_malayalam.pad	\
+			  india_oriya.pad	\
+			  india_saurashtra.pad	\
+			  india_sinhala.pad	\
+			  india_syloti_nagri.pad	\
+			  india_tamil.pad	\
+			  india_telugu.pad	\
+			  armenian.pad	\
+			  balinese.pad	\
+			  buginese.pad	\
+			  cham.pad	\
+			  georgian.pad	\
+			  hebrew.pad	\
+			  kaya.pad	\
+			  khmer.pad	\
+			  lao.pad	\
+			  myanmar.pad	\
+			  mongolian.pad	\
+			  philipine_buhid.pad	\
+			  philipine_hanunoo.pad	\
+			  philipine_tagalog.pad	\
+			  russian.pad	\
+			  tai_lue.pad	\
+			  rejang.pad	\
+			  sundanese.pad	\
+			  tai_le.pad	\
+			  thai.pad	\
 			  tibet.pad
 
 scim_input_pad_datadir	= @SCIM_INPUT_PAD_DATADIR@
 scim_input_pad_data_DATA= $(INPUT_PAD_DEST_FILES)
 
-EXTRA_DIST		= input-pad.png $(INPUT_PAD_SOURCE_FILES)
+EXTRA_DIST		= input-pad.png $(INPUT_PAD_SOURCE_FILE)
 
 CLEANFILES		= *.bak scim-input-pad $(INPUT_PAD_DEST_FILES)
 
-%.pad:   %.pad.in
-    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; \
-    LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
+*.pad:	*.pad.in	$(INTLTOOL_MERGE) $(top_srcdir)/po/*.po ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< ($)@'
