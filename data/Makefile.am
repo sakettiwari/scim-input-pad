@@ -70,50 +70,6 @@ INPUT_PAD_SOURCE_FILES	= base.pad.in	\
 			  thai.pad.in		\
 			  tibet.pad.in
 
-INPUT_PAD_DEST_FILES    = base.pad	\
-			  keyboard.pad	\
-			  japanese.pad	\
-			  chinese.pad	\
-			  korean.pad	\
-			  arabian.pad	\
-			  ethiopic.pad	\
-			  india_bengali.pad	\
-			  india_chiki.pad	\
-			  india_devanagari.pad	\
-			  india_gujarati.pad	\
-			  india_gurmukhi.pad	\
-			  india_kannada.pad	\
-			  india_lepcha.pad	\
-			  india_limbu.pad	\
-			  india_malayalam.pad	\
-			  india_oriya.pad	\
-			  india_saurashtra.pad	\
-			  india_sinhala.pad	\
-			  india_syloti_nagri.pad	\
-			  india_tamil.pad	\
-			  india_telugu.pad	\
-			  armenian.pad	\
-			  balinese.pad	\
-			  buginese.pad	\
-			  cham.pad	\
-			  georgian.pad	\
-			  hebrew.pad	\
-			  kaya.pad	\
-			  khmer.pad	\
-			  lao.pad	\
-			  myanmar.pad	\
-			  mongolian.pad	\
-			  philipine_buhid.pad	\
-			  philipine_hanunoo.pad	\
-			  philipine_tagalog.pad	\
-			  russian.pad	\
-			  tai_lue.pad	\
-			  rejang.pad	\
-			  sundanese.pad	\
-			  tai_le.pad	\
-			  thai.pad	\
-			  tibet.pad
-
 scim_input_pad_datadir	= @SCIM_INPUT_PAD_DATADIR@
 scim_input_pad_data_DATA= $(INPUT_PAD_DEST_FILES)
 
