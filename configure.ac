@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-input-pad, 0.1.3, suzhe@tsinghua.org.cn)
+AC_INIT(scim-input-pad, 0.1.3.1, suzhe@tsinghua.org.cn)
 AC_CONFIG_SRCDIR([src/scim_input_pad.cpp])
 
 SCIM_VERSION=1.2.0
@@ -11,7 +11,7 @@ AC_SUBST(GTK_VERSION)
 # libtool versioning for SCIM Input Pad
 
 # increment if the interface has additions, changes, removals.
-SCIM_INPUT_PAD_CURRENT=0
+SCIM_INPUT_PAD_CURRENT=1
 
 # increment any time the source changes; set to 0 if you increment CURRENT
 SCIM_INPUT_PAD_REVISION=0
@@ -19,7 +19,7 @@ SCIM_INPUT_PAD_REVISION=0
 # increment if any interfaces have been added; set to 0
 # if any interfaces have been removed. removal has 
 # precedence over adding, so set to 0 if both happened.
-SCIM_INPUT_PAD_AGE=0
+SCIM_INPUT_PAD_AGE=1
 
 AC_SUBST(SCIM_INPUT_PAD_CURRENT)
 AC_SUBST(SCIM_INPUT_PAD_REVISION)
@@ -114,8 +114,51 @@ AC_SUBST(SCIM_INPUT_PAD_DATADIR)
 AC_SUBST(SCIM_INPUT_PAD_USER_DATADIR)
 
 AC_CONFIG_FILES([Makefile intl/Makefile po/Makefile.in m4/Makefile 
-		 data/scim-input-pad
-		 data/Makefile
-		 src/Makefile
-		 scim-input-pad.spec])
+		data/Makefile
+		data/scim-input-pad
+		data/base.pad
+		data/keyboard.pad
+		data/japanese.pad
+		data/chinese.pad
+		data/korean.pad
+		data/arabian.pad
+		data/ethiopic.pad
+		data/india_bengali.pad
+		data/india_chiki.pad
+		data/india_devanagari.pad
+		data/india_gujarati.pad
+		data/india_gurmukhi.pad
+		data/india_kannada.pad
+		data/india_lepcha.pad
+		data/india_limbu.pad
+		data/india_malayalam.pad
+		data/india_oriya.pad
+		data/india_saurashtra.pad
+		data/india_sinhala.pad
+		data/india_syloti_nagri.pad
+		data/india_tamil.pad
+		data/india_telugu.pad
+		data/armenian.pad
+		data/balinese.pad
+		data/buginese.pad
+		data/cham.pad
+		data/georgian.pad
+		data/hebrew.pad
+		data/kaya.pad
+		data/khmer.pad
+		data/lao.pad
+		data/myanmar.pad
+		data/mongolian.pad
+		data/philipine_buhid.pad
+		data/philipine_hanunoo.pad
+		data/philipine_tagalog.pad
+		data/russian.pad
+		data/tai_lue.pad
+		data/rejang.pad
+		data/sundanese.pad
+		data/tai_le.pad
+		data/thai.pad
+		data/tibet.pad
+		src/Makefile
+		scim-input-pad.spec])
 AC_OUTPUT
