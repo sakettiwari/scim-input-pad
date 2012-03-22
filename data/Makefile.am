@@ -77,4 +77,4 @@ EXTRA_DIST		= input-pad.png $(INPUT_PAD_SOURCE_FILE)
 
 CLEANFILES		= *.bak scim-input-pad $(INPUT_PAD_DEST_FILES)
 
-*.pad:	*.pad.in	$(INTLTOOL_MERGE) $(top_srcdir)/po/*.po ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< ($)@'
+# *.pad:	*.pad.in	$(INTLTOOL_MERGE) $(top_srcdir)/po/*.po ; LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< ($)@'

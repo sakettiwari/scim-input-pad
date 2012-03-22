@@ -25,12 +25,12 @@ moduledir		= @SCIM_MODULEDIR@/Helper
 module_LTLIBRARIES	= input-pad.la
 input_pad_la_SOURCES	= scim_input_pad.cpp
 
-input_pad_la_CXXFLAGS	= @GTK2_CFLAGS@ @SCIM_CFLAGS@
+input_pad_la_CXXFLAGS	= @GTK_CFLAGS@ @SCIM_CFLAGS@
 input_pad_la_LDFLAGS	= -avoid-version \
 		     	  -rpath $(moduledir) \
 			  -module \
 			  @LIBTOOL_EXPORT_OPTIONS@ \
 			  @LTLIBINTL@ \
-			  @GTK2_LIBS@
+			  @GTK_LIBS@
 
 input_pad_la_LIBADD	= libscim-input-pad.la

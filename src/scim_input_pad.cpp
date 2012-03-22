@@ -63,8 +63,13 @@ static void       button_released_callback (GtkButton *button, gpointer user_dat
 static void       options_button_clicked_callback (GtkButton *button, gpointer user_data);
 static void       options_checkbox_toggled_callback (GtkToggleButton *togglebutton, gpointer user_data);
 static gboolean   button_repeat_timeout (gpointer data);
+#if GTK_CHECK_VERSION(3, 0, 0)
+static void       group_notebook_switch_page_callback (GtkNotebook *notebook, GtkWidget*, guint page, gpointer data);
+static void       table_notebook_switch_page_callback (GtkNotebook *notebook, GtkWidget*, guint page, gpointer data);
+#else
 static void       group_notebook_switch_page_callback (GtkNotebook *notebook, GtkNotebookPage *, guint page, gpointer data);
 static void       table_notebook_switch_page_callback (GtkNotebook *notebook, GtkNotebookPage *, guint page, gpointer data);
+#endif
 static gboolean   button_crossing_callback (GtkWidget *button, GdkEventCrossing *event, gpointer data);
 static gboolean   helper_agent_input_handler (GIOChannel *source, GIOCondition condition, gpointer user_data);
 static void       slot_exit (const HelperAgent *, int ic, const String &uuid);
@@ -81,7 +86,10 @@ static GtkWidget   *main_notebook;
 static GtkWidget   *preview_window;
 static GtkWidget   *preview_label;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+#else
 static GtkTooltips *tooltips;
+#endif
 
 static gint         preview_size = 80;
 static gint         preview_delay = 1000;
@@ -208,7 +216,11 @@ static void
 slot_trigger_property (const HelperAgent *agent, int ic, const String &uuid, const String &property)
 {
     if (property == "/InputPad") {
+#if GTK_CHECK_VERSION(3, 0, 0)
+        if (gtk_widget_get_visible (GTK_WIDGET (main_window))) {
+#else
         if (GTK_WIDGET_VISIBLE (main_window)) {
+#endif
             gtk_window_get_position (GTK_WINDOW (main_window), &main_window_xpos, &main_window_ypos);
             gtk_widget_hide (main_window);
         } else {
@@ -225,11 +237,11 @@ send_button_content (GtkButton *button)
 
     gpointer type = g_object_get_data (G_OBJECT (button), "element_type");
 
-    if (type == (gpointer) INPUT_ELEMENT_STRING) {
+    if (type == (gpointer)(intptr_t) INPUT_ELEMENT_STRING) {
         const gchar *str = gtk_button_get_label(GTK_BUTTON(button));
         if (str)
             helper_agent.commit_string (-1, "", scim::utf8_mbstowcs (str));
-    } else if (type == (gpointer) INPUT_ELEMENT_KEY) {
+    } else if (type == (gpointer)(intptr_t) INPUT_ELEMENT_KEY) {
         uint32 code = static_cast <uint32> (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "element_key_code")));
         uint16 mask = static_cast <uint16> (GPOINTER_TO_INT ((size_t)g_object_get_data (G_OBJECT (button), "element_key_mask")));
         KeyEvent key (code, (mask & ~SCIM_KEY_ReleaseMask));
@@ -283,7 +295,7 @@ add_button_content_to_recently_used (GtkButton *button)
         g_object_set_data (G_OBJECT (vbox), "table_widget", 0);
         g_object_set_data (G_OBJECT (vbox), "table_viewport", 0);
         g_object_set_data (G_OBJECT (vbox), "table_root_widget", 0);
-        g_object_set_data (G_OBJECT (vbox), "done", (gpointer) 0);
+        g_object_set_data (G_OBJECT (vbox), "done", (gpointer)(intptr_t) 0);
     }
 }
 
@@ -298,8 +310,8 @@ button_pressed_callback (GtkButton *button, gpointer recently)
 
     if (enable_repeat) {
         guint id = g_timeout_add (repeat_delay, button_repeat_timeout, button);
-        g_object_set_data (G_OBJECT (button), "button_repeat_timeout_id", (gpointer) id);
-        g_object_set_data (G_OBJECT (button), "initial_pressed", (gpointer) 1);
+        g_object_set_data (G_OBJECT (button), "button_repeat_timeout_id", (gpointer)(intptr_t) id);
+        g_object_set_data (G_OBJECT (button), "initial_pressed", (gpointer)(intptr_t) 1);
     }
 }
 
@@ -309,7 +321,7 @@ button_released_callback (GtkButton *button, gpointer user_data)
     if (enable_repeat) {
         guint id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "button_repeat_timeout_id"));
         g_source_remove (id);
-        g_object_set_data (G_OBJECT (button), "initial_pressed", (gpointer) 0);
+        g_object_set_data (G_OBJECT (button), "initial_pressed", (gpointer)(intptr_t) 0);
     }
 }
 
@@ -320,10 +332,10 @@ button_repeat_timeout (gpointer data)
 
     send_button_content (button);
 
-    if (g_object_get_data (G_OBJECT (button), "initial_pressed") == (gpointer) 1) {
+    if (g_object_get_data (G_OBJECT (button), "initial_pressed") == (gpointer)(intptr_t) 1) {
         guint id = g_timeout_add (1000/repeat_frequency, button_repeat_timeout, button);
-        g_object_set_data (G_OBJECT (button), "button_repeat_timeout_id", (gpointer) id);
-        g_object_set_data (G_OBJECT (button), "initial_pressed", (gpointer) 0);
+        g_object_set_data (G_OBJECT (button), "button_repeat_timeout_id", (gpointer)(intptr_t) id);
+        g_object_set_data (G_OBJECT (button), "initial_pressed", (gpointer)(intptr_t) 0);
         return FALSE;
     }
     return TRUE;
@@ -387,9 +399,13 @@ button_crossing_callback (GtkWidget *button, GdkEventCrossing *event, gpointer d
 
     if (event->type == GDK_ENTER_NOTIFY) {
         guint id = g_timeout_add (preview_delay, show_preview_timeout, button);
-        g_object_set_data (G_OBJECT (button), "preview_timeout_id", (gpointer) id);
+        g_object_set_data (G_OBJECT (button), "preview_timeout_id", (gpointer)(intptr_t) id);
     } else {
+#if GTK_CHECK_VERSION(3, 0, 0)
+        if (gtk_widget_get_visible (GTK_WIDGET (preview_window))) {
+#else
         if (GTK_WIDGET_VISIBLE (preview_window)) {
+#endif
             gtk_widget_hide (preview_window);
         } else {
             guint id = GPOINTER_TO_INT(g_object_get_data (G_OBJECT (button), "preview_timeout_id"));
@@ -435,7 +451,7 @@ create_table_page (GtkWidget *table_widget, const InputTablePointer &table, size
 
         if (elm.type == INPUT_ELEMENT_STRING) {
             button = gtk_button_new_with_label (elm.data.c_str ());
-            g_object_set_data (G_OBJECT (button), "element_type", (gpointer) INPUT_ELEMENT_STRING);
+            g_object_set_data (G_OBJECT (button), "element_type", (gpointer)(intptr_t) INPUT_ELEMENT_STRING);
             preview = true;
         } else if (elm.type == INPUT_ELEMENT_KEY) {
             KeyEvent key (elm.data);
@@ -451,16 +467,16 @@ create_table_page (GtkWidget *table_widget, const InputTablePointer &table, size
                     label = elm.data;
                 }
                 button = gtk_button_new_with_label (label.c_str ());
-                g_object_set_data (G_OBJECT (button), "element_type", (gpointer) INPUT_ELEMENT_KEY);
-                g_object_set_data (G_OBJECT (button), "element_key_code", (gpointer) ((size_t) key.code));
-                g_object_set_data (G_OBJECT (button), "element_key_mask", (gpointer) ((size_t) key.mask));
+                g_object_set_data (G_OBJECT (button), "element_type", (gpointer)(intptr_t) INPUT_ELEMENT_KEY);
+                g_object_set_data (G_OBJECT (button), "element_key_code", (gpointer)(intptr_t) ((size_t) key.code));
+                g_object_set_data (G_OBJECT (button), "element_key_mask", (gpointer)(intptr_t) ((size_t) key.mask));
             }
         }
 
         if (button) {
             gtk_widget_show (button);
-            g_signal_connect (G_OBJECT (button), "pressed", G_CALLBACK (button_pressed_callback), (gpointer) recently);
-            g_signal_connect (G_OBJECT (button), "released", G_CALLBACK (button_released_callback), (gpointer) recently);
+            g_signal_connect (G_OBJECT (button), "pressed", G_CALLBACK (button_pressed_callback), (gpointer)(intptr_t) recently);
+            g_signal_connect (G_OBJECT (button), "released", G_CALLBACK (button_released_callback), (gpointer)(intptr_t) recently);
 
             if (preview) {
                 g_signal_connect (G_OBJECT (button), "enter-notify-event", G_CALLBACK (button_crossing_callback), 0);
@@ -486,7 +502,11 @@ set_table_vbox_width (GtkWidget *vbox)
 }
 
 static void
+#if GTK_CHECK_VERSION(3, 0, 0)
+group_notebook_switch_page_callback (GtkNotebook *notebook, GtkWidget *, guint page, gpointer data)
+#else
 group_notebook_switch_page_callback (GtkNotebook *notebook, GtkNotebookPage *, guint page, gpointer data)
+#endif
 {
     GtkWidget *tablebook = gtk_notebook_get_nth_page (notebook, page);
 
@@ -496,16 +516,20 @@ group_notebook_switch_page_callback (GtkNotebook *notebook, GtkNotebookPage *, g
 
     current_group = page;
 
-    if (g_object_get_data (G_OBJECT (vbox), "done") == (gpointer) 1) {
+    if (g_object_get_data (G_OBJECT (vbox), "done") == (gpointer)(intptr_t) 1) {
         set_table_vbox_width (vbox);
         return;
     }
 
-    g_idle_add (create_table_idle_func, (gpointer) ((page << 16) | (curtable & 0xFFFF)));
+    g_idle_add (create_table_idle_func, (gpointer)(intptr_t) ((page << 16) | (curtable & 0xFFFF)));
 }
 
 static void
+#if GTK_CHECK_VERSION(3, 0, 0)
+table_notebook_switch_page_callback (GtkNotebook *notebook, GtkWidget*, guint page, gpointer data)
+#else
 table_notebook_switch_page_callback (GtkNotebook *notebook, GtkNotebookPage *, guint page, gpointer data)
+#endif
 {
     gint       grouppage = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
 
@@ -513,12 +537,12 @@ table_notebook_switch_page_callback (GtkNotebook *notebook, GtkNotebookPage *, g
 
     current_table = page;
 
-    if (g_object_get_data (G_OBJECT (vbox), "done") == (gpointer) 1) {
+    if (g_object_get_data (G_OBJECT (vbox), "done") == (gpointer)(intptr_t) 1) {
         set_table_vbox_width (vbox);
         return;
     }
 
-    g_idle_add (create_table_idle_func, (gpointer) ((grouppage << 16) | (page & 0xFFFF)));
+    g_idle_add (create_table_idle_func, (gpointer)(intptr_t) ((grouppage << 16) | (page & 0xFFFF)));
 }
 
 static GtkWidget *
@@ -539,7 +563,7 @@ create_group_page (const InputGroupPointer &group)
         if (!table.null () && table->number_of_elements () > 0) {
             vbox = gtk_vbox_new (FALSE, 10);
             gtk_widget_show (vbox);
-            g_object_set_data (G_OBJECT (vbox), "table_pointer", (gpointer) table.get ());
+            g_object_set_data (G_OBJECT (vbox), "table_pointer", (gpointer)(intptr_t) table.get ());
             g_object_set_data (G_OBJECT (vbox), "table_widget", 0);
             gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
                                       vbox,
@@ -567,25 +591,25 @@ create_recently_used_group_page ()
     // Recently used chars
     vbox = gtk_vbox_new (FALSE, 10);
     gtk_widget_show (vbox);
-    g_object_set_data (G_OBJECT (vbox), "table_pointer", (gpointer) recently_used_chars.get ());
+    g_object_set_data (G_OBJECT (vbox), "table_pointer", (gpointer)(intptr_t) recently_used_chars.get ());
     g_object_set_data (G_OBJECT (vbox), "table_widget", 0);
     gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
                               vbox,
                               gtk_label_new (_(recently_used_chars->get_name ().c_str ())));
 
-    g_object_set_data (G_OBJECT (vbox), "recently", (gpointer) 1);
+    g_object_set_data (G_OBJECT (vbox), "recently", (gpointer)(intptr_t) 1);
     recently_used_chars_vbox = vbox;
 
     // Recently used KeyEvents
     vbox = gtk_vbox_new (FALSE, 10);
     gtk_widget_show (vbox);
-    g_object_set_data (G_OBJECT (vbox), "table_pointer", (gpointer) recently_used_keyevents.get ());
+    g_object_set_data (G_OBJECT (vbox), "table_pointer", (gpointer)(intptr_t) recently_used_keyevents.get ());
     g_object_set_data (G_OBJECT (vbox), "table_widget", 0);
     gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
                               vbox,
                               gtk_label_new (_(recently_used_keyevents->get_name ().c_str ())));
 
-    g_object_set_data (G_OBJECT (vbox), "recently", (gpointer) 1);
+    g_object_set_data (G_OBJECT (vbox), "recently", (gpointer)(intptr_t) 1);
     recently_used_keyevents_vbox = vbox;
 
     gtk_widget_show (notebook);
@@ -632,10 +656,10 @@ create_table_idle_func (gpointer data)
     gint       tablepage = gtk_notebook_get_current_page (GTK_NOTEBOOK (tablebook));
     GtkWidget  *vbox     = gtk_notebook_get_nth_page (GTK_NOTEBOOK (tablebook), tablepage);
 
-    if (data != (gpointer) (grouppage << 16 | (tablepage & 0xFFFF)))
+    if (data != (gpointer)(intptr_t) (grouppage << 16 | (tablepage & 0xFFFF)))
         return FALSE;
 
-    if (g_object_get_data (G_OBJECT (vbox), "done") == (gpointer) 1)
+    if (g_object_get_data (G_OBJECT (vbox), "done") == (gpointer)(intptr_t) 1)
         return FALSE;
 
     gpointer recently = g_object_get_data (G_OBJECT (vbox), "recently");
@@ -684,11 +708,11 @@ create_table_idle_func (gpointer data)
 
     if (start >= table->number_of_elements ()) {
         set_table_vbox_width (vbox);
-        g_object_set_data (G_OBJECT (vbox), "done", (gpointer) 1);
+        g_object_set_data (G_OBJECT (vbox), "done", (gpointer)(intptr_t) 1);
         return FALSE;
     } 
 
-    g_object_set_data (G_OBJECT (vbox), "table_start", (gpointer) start);
+    g_object_set_data (G_OBJECT (vbox), "table_start", (gpointer)(intptr_t) start);
 
     return TRUE;
 }
@@ -728,18 +752,36 @@ options_button_clicked_callback (GtkButton *button, gpointer user_data)
     // Show preview
     show_preview_checkbox = gtk_check_button_new_with_mnemonic (_("_Show Preview"));
     gtk_widget_show (show_preview_checkbox);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), show_preview_checkbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), show_preview_checkbox, FALSE, FALSE, 4);
+#endif
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(show_preview_checkbox,
+                          _("Whether to show preview of a character "
+                            "in a popup window with larger size."
+                            "If it's enabled, then a preview window will be showed "
+                            "if mouse pointer is moved onto the button and stay for "
+                            "a short while."));
+#else
     gtk_tooltips_set_tip (tooltips, show_preview_checkbox,
                           _("Whether to show preview of a character "
                             "in a popup window with larger size."
                             "If it's enabled, then a preview window will be showed "
                             "if mouse pointer is moved onto the button and stay for "
                             "a short while."), 0);
+#endif
 
     // Preview size
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 4);
+#endif
 
     label = gtk_label_new (NULL);
     gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("_Preview Size (pt):"));
@@ -755,13 +797,22 @@ options_button_clicked_callback (GtkButton *button, gpointer user_data)
     gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (preview_size_spin_button), TRUE);
     gtk_spin_button_set_digits (GTK_SPIN_BUTTON (preview_size_spin_button), 0);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), preview_size_spin_button);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(preview_size_spin_button,
+                          _("The size of preview, in points."));
+#else
     gtk_tooltips_set_tip (tooltips, preview_size_spin_button,
                           _("The size of preview, in points."), 0);
+#endif
 
     // Preview delay
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 4);
+#endif
 
     label = gtk_label_new (NULL);
     gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("Preview _Delay (ms):"));
@@ -777,28 +828,56 @@ options_button_clicked_callback (GtkButton *button, gpointer user_data)
     gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (preview_delay_spin_button), TRUE);
     gtk_spin_button_set_digits (GTK_SPIN_BUTTON (preview_delay_spin_button), 0);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), preview_delay_spin_button);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(preview_delay_spin_button,
+                          _("The delay between moving mouse pointer onto "
+                            "the button and showing preview. In milliseconds."));
+#else
     gtk_tooltips_set_tip (tooltips, preview_delay_spin_button,
                           _("The delay between moving mouse pointer onto "
                             "the button and showing preview. In milliseconds."), 0);
+#endif
 
     separator = gtk_hseparator_new ();
     gtk_widget_show (separator);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), separator, FALSE, FALSE, 0);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), separator, FALSE, FALSE, 0);
+#endif
 
     // Enable repeat
     enable_repeat_checkbox = gtk_check_button_new_with_mnemonic (_("_Enable Repeat"));
     gtk_widget_show (enable_repeat_checkbox);
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), enable_repeat_checkbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), enable_repeat_checkbox, FALSE, FALSE, 4);
+#endif
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(enable_repeat_checkbox,
+                          _("Whether to enable repeatedly committing. "
+                            "If it's enabled, then the character or key event "
+                            "will be committed to client repeatedly if you hold "
+                            "the button pressed."));
+#else
     gtk_tooltips_set_tip (tooltips, enable_repeat_checkbox,
                           _("Whether to enable repeatedly committing. "
                             "If it's enabled, then the character or key event "
                             "will be committed to client repeatedly if you hold "
                             "the button pressed."), 0);
+#endif
 
     // Repeat delay
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 4);
+#endif
 
     label = gtk_label_new (NULL);
     gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("_Repeat Delay (ms):"));
@@ -814,14 +893,24 @@ options_button_clicked_callback (GtkButton *button, gpointer user_data)
     gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (repeat_delay_spin_button), TRUE);
     gtk_spin_button_set_digits (GTK_SPIN_BUTTON (repeat_delay_spin_button), 0);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), repeat_delay_spin_button);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(repeat_delay_spin_button,
+                          _("The delay between pressing down the button "
+                            "and starting repeatedly committing.In milliseconds."));
+#else
     gtk_tooltips_set_tip (tooltips, repeat_delay_spin_button,
                           _("The delay between pressing down the button "
                             "and starting repeatedly committing.In milliseconds."), 0);
+#endif
 
     // Repeat frequency
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 4);
+#endif
 
     label = gtk_label_new (NULL);
     gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("Repeat _Frequency (times/sec):"));
@@ -837,19 +926,38 @@ options_button_clicked_callback (GtkButton *button, gpointer user_data)
     gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (repeat_frequency_spin_button), TRUE);
     gtk_spin_button_set_digits (GTK_SPIN_BUTTON (repeat_frequency_spin_button), 0);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), repeat_frequency_spin_button);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(repeat_frequency_spin_button,
+                          _("The frequency of repeatedly committing. In times/second."));
+#else
     gtk_tooltips_set_tip (tooltips, repeat_frequency_spin_button,
                           _("The frequency of repeatedly committing. In times/second."), 0);
+#endif
 
     separator = gtk_hseparator_new ();
     gtk_widget_show (separator);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), separator, FALSE, FALSE, 0);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), separator, FALSE, FALSE, 0);
+#endif
 
     // Show preview
     clear_recently_used_checkbox = gtk_check_button_new_with_mnemonic (_("_Clear Recently Used history"));
     gtk_widget_show (clear_recently_used_checkbox);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), clear_recently_used_checkbox, FALSE, FALSE, 4);
+#else
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), clear_recently_used_checkbox, FALSE, FALSE, 4);
+#endif
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(clear_recently_used_checkbox,
+                          _("If it's checked, then the history of recently used characters and key events will be cleared."));
+#else
     gtk_tooltips_set_tip (tooltips, clear_recently_used_checkbox,
                           _("If it's checked, then the history of recently used characters and key events will be cleared."), 0);
+#endif
 
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (show_preview_checkbox), show_preview);
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (preview_size_spin_button), preview_size);
@@ -894,14 +1002,14 @@ options_button_clicked_callback (GtkButton *button, gpointer user_data)
             g_object_set_data (G_OBJECT (recently_used_chars_vbox), "table_widget", 0);
             g_object_set_data (G_OBJECT (recently_used_chars_vbox), "table_viewport", 0);
             g_object_set_data (G_OBJECT (recently_used_chars_vbox), "table_root_widget", 0);
-            g_object_set_data (G_OBJECT (recently_used_chars_vbox), "done", (gpointer) 0);
+            g_object_set_data (G_OBJECT (recently_used_chars_vbox), "done", (gpointer)(intptr_t) 0);
 
             widget = (GtkWidget *) g_object_get_data (G_OBJECT (recently_used_keyevents_vbox), "table_root_widget");
             if (widget) gtk_widget_destroy (widget);
             g_object_set_data (G_OBJECT (recently_used_keyevents_vbox), "table_widget", 0);
             g_object_set_data (G_OBJECT (recently_used_keyevents_vbox), "table_viewport", 0);
             g_object_set_data (G_OBJECT (recently_used_keyevents_vbox), "table_root_widget", 0);
-            g_object_set_data (G_OBJECT (recently_used_keyevents_vbox), "done", (gpointer) 0);
+            g_object_set_data (G_OBJECT (recently_used_keyevents_vbox), "done", (gpointer)(intptr_t) 0);
         }
     }
 
@@ -922,7 +1030,10 @@ create_main_window ()
     GtkWidget *button;
     GtkWidget *separator;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+#else
     tooltips = gtk_tooltips_new ();
+#endif
 
     main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_accept_focus (GTK_WINDOW (main_window), FALSE);
@@ -937,7 +1048,11 @@ create_main_window ()
     g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (options_button_clicked_callback), 0);
     gtk_widget_show (button);
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 4);
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_set_tooltip_text(button, _("Open the options dialog."));
+#else
     gtk_tooltips_set_tip (tooltips, button, _("Open the options dialog."), 0);
+#endif
 
     separator = gtk_hseparator_new ();
     gtk_widget_show (separator);
@@ -1041,8 +1156,8 @@ void run (const String &display)
     char **argv = new char * [4];
     int    argc = 3;
 
-    argv [0] = "input-pad";
-    argv [1] = "--display";
+    argv [0] = const_cast<char*>("input-pad");
+    argv [1] = const_cast<char*>("--display");
     argv [2] = const_cast<char *> (display.c_str ());
     argv [3] = 0;
  

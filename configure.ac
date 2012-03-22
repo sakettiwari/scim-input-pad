@@ -3,10 +3,10 @@ AC_INIT(scim-input-pad, 0.1.3.1, suzhe@tsinghua.org.cn)
 AC_CONFIG_SRCDIR([src/scim_input_pad.cpp])
 
 SCIM_VERSION=1.2.0
-GTK_VERSION=2.4.0
+# GTK_VERSION=2.4.0
 
 AC_SUBST(SCIM_VERSION)
-AC_SUBST(GTK_VERSION)
+# AC_SUBST(GTK_VERSION)
 
 # libtool versioning for SCIM Input Pad
 
@@ -24,6 +24,7 @@ SCIM_INPUT_PAD_AGE=1
 AC_SUBST(SCIM_INPUT_PAD_CURRENT)
 AC_SUBST(SCIM_INPUT_PAD_REVISION)
 AC_SUBST(SCIM_INPUT_PAD_AGE)
+SCIM_INPUT_PAD_VERSION=$SCIM_INPUT_PAD_CURRENT.$SCIM_INPUT_PAD_REVISION.$SCIM_INPUT_PAD_AGE
 
 GETTEXT_PACKAGE=scim-input-pad
 AC_SUBST(GETTEXT_PACKAGE)
@@ -58,7 +59,52 @@ AC_TYPE_SIZE_T
 PKG_CHECK_MODULES(SCIM,[scim >= $SCIM_VERSION])
 
 # Check gtk2
-PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0])
+# PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0])
+PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0],
+            [SCIM_INPUT_PAD_HAS_GTK2=yes],
+            [SCIM_INPUT_PAD_HAS_GTK2=no])
+
+PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >= 3.0.0],
+            [SCIM_INPUT_PAD_HAS_GTK3=yes],
+            [SCIM_INPUT_PAD_HAS_GTK3=no])
+
+if test "$SCIM_INPUT_PAD_HAS_GTK3" = "yes" \
+	-a "$SCIM_INPUT_PAD_HAS_GTK2" = "yes"; then
+  if test "$WANT_GTK_VERSION" = "2"; then
+    USE_GTK_VERSION=2
+  else
+    USE_GTK_VERSION=3
+  fi
+elif test "$SCIM_INPUT_PAD_HAS_GTK3" = "yes"; then
+  USE_GTK_VERSION=3
+elif test "$SCIM_INPUT_PAD_HAS_GTK2" = "yes"; then
+  USE_GTK_VERSION=2 
+else
+  AC_MSG_ERROR([GTK >= 2.4 can not be found!])
+fi
+
+if test "$USE_GTK_VERSION" = "3"; then
+  GTK_VERSION=3.0.0
+  GTK_MAJOR_VERSION=3
+  GTK_BINARY_VERSION=`$PKG_CONFIG --variable=gtk_binary_version gtk+-3.0`
+  GTK_LIBDIR=`$PKG_CONFIG --variable=libdir gtk+-3.0`
+  GTK_CFLAGS=$GTK3_CFLAGS
+  GTK_LIBS=$GTK3_LIBS
+else
+  GTK_VERSION=2.4.0
+  GTK_MAJOR_VERSION=2
+  GTK_BINARY_VERSION=`$PKG_CONFIG --variable=gtk_binary_version gtk+-2.0`
+  GTK_LIBDIR=`$PKG_CONFIG --variable=libdir gtk+-2.0`
+  GTK_CFLAGS=$GTK2_CFLAGS
+  GTK_LIBS=$GTK2_LIBS
+fi
+
+AC_SUBST(GTK_VERSION)
+AC_SUBST(GTK_MAJOR_VERSION)
+AC_SUBST(GTK_BINARY_VERSION)
+AC_SUBST(GTK_LIBDIR)
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -74,6 +120,12 @@ AC_ARG_ENABLE(debug,
 	      [  --enable-debug            Turn on debugging],
        	      enable_debug=yes,
 	      enable_debug=no)
+
+AC_ARG_WITH(gtk-version,
+        AS_HELP_STRING([--with-gtk-version=2 or 3],
+        [Select gtk version if both gtk2 and gtk3 are available (default is 3)]),
+		[WANT_GTK_VERSION=$withval],
+        [WANT_GTK_VERSION=3])
 
 if test "$enable_debug" = "yes"; then
   AC_DEFINE(ENABLE_DEBUG,1,[Define this to enable the debug facility in libscim])
@@ -162,3 +214,16 @@ AC_CONFIG_FILES([Makefile intl/Makefile po/Makefile.in m4/Makefile
 		src/Makefile
 		scim-input-pad.spec])
 AC_OUTPUT
+
+AC_MSG_RESULT([
+Build options:
+  Version                  $SCIM_INPUT_PAD_VERSION
+  Install prefix           $prefix
+  Build shared libs        $enable_shared
+  Build static libs        $enable_static
+  Enable debug             $enable_debug
+
+Module options:           
+  GTK Version              $USE_GTK_VERSION
+])
+
