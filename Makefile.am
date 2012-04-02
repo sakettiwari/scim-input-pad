@@ -32,7 +32,7 @@ EXTRA_DIST		= config.rpath \
 			  scim-input-pad.spec
 
 AUTOMAKE_OPTIONS 	= gnu
-SUBDIRS 		= intl m4 po src data
+SUBDIRS 		= po src data
 
 MAINTAINERCLEANFILES 	= Makefile.in \
 			  aclocal.m4 \

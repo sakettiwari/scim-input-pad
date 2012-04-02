@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-input-pad, 0.1.3.1, suzhe@tsinghua.org.cn)
+AC_INIT([scim-input-pad],[0.1.3.1],[suzhe@tsinghua.org.cn])
 AC_CONFIG_SRCDIR([src/scim_input_pad.cpp])
 
-SCIM_VERSION=1.2.0
+SCIM_VERSION=1.4.0
 # GTK_VERSION=2.4.0
 
 AC_SUBST(SCIM_VERSION)
@@ -32,19 +32,15 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [The gettext domain])
 
 # Init automake stuff
 AM_INIT_AUTOMAKE
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
-# Init gettext
-ALL_LINGUAS="zh_CN zh_TW pa ja de fr it nl"
-AM_GNU_GETTEXT
+#AC_REQUIRE(AC_CANONICAL_HOST)_LT_SET_OPTION([LT_INIT],[win32-dll])
+#AC_DIAGNOSE([obsolete],[AC_LIBTOOL_WIN32_DLL: Remove this warning and the call to _LT_SET_OPTION when you
+#put the `win32-dll' option into LT_INIT's first parameter.])
 
-# Check intltool
-IT_PROG_INTLTOOL([0.33], [no-xml])
-
-AC_LIBTOOL_WIN32_DLL
-AC_LIBTOOL_DLOPEN
-AC_PROG_LIBTOOL
-AC_LIB_LTDL
+LT_CONFIG_LTDL_DIR([libltdl])
+LT_INIT([dlopen])
+LTDL_INIT
 AC_SUBST(LIBTOOL_DEPS)
 
 AC_PROG_CXX
@@ -54,6 +50,14 @@ AC_LANG(C++)
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_SIZE_T
+
+# Init gettext
+ALL_LINGUAS="zh_CN zh_TW pa ja de fr it nl"
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.14.1])
+
+# Check intltool
+IT_PROG_INTLTOOL([0.33], [no-xml])
 
 # Check SCIM 
 PKG_CHECK_MODULES(SCIM,[scim >= $SCIM_VERSION])
@@ -67,6 +71,28 @@ PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0],
 PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >= 3.0.0],
             [SCIM_INPUT_PAD_HAS_GTK3=yes],
             [SCIM_INPUT_PAD_HAS_GTK3=no])
+
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([libintl.h dirent.h])
+
+# libtool option to control which symbols are exported
+# right now, symbols starting with _ are not exported
+LIBTOOL_EXPORT_OPTIONS='-export-symbols-regex "^[[^_]].*"'
+AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
+
+# Extra args.
+AC_ARG_ENABLE(debug,
+	      [  --enable-debug            Turn on debugging],
+       	      enable_debug=yes,
+	      enable_debug=no)
+
+AC_ARG_WITH(gtk-version,
+        AS_HELP_STRING([--with-gtk-version=2 or 3],
+        [Select gtk version if both gtk2 and gtk3 are available (default is 3)]),
+		[WANT_GTK_VERSION=$withval],
+        [WANT_GTK_VERSION=3])
 
 if test "$SCIM_INPUT_PAD_HAS_GTK3" = "yes" \
 	-a "$SCIM_INPUT_PAD_HAS_GTK2" = "yes"; then
@@ -106,27 +132,6 @@ AC_SUBST(GTK_LIBDIR)
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
-# Checks for header files.
-AC_HEADER_STDC
-AC_CHECK_HEADERS([libintl.h dirent.h])
-
-# libtool option to control which symbols are exported
-# right now, symbols starting with _ are not exported
-LIBTOOL_EXPORT_OPTIONS='-export-symbols-regex "^[[^_]].*"'
-AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
-
-# Extra args.
-AC_ARG_ENABLE(debug,
-	      [  --enable-debug            Turn on debugging],
-       	      enable_debug=yes,
-	      enable_debug=no)
-
-AC_ARG_WITH(gtk-version,
-        AS_HELP_STRING([--with-gtk-version=2 or 3],
-        [Select gtk version if both gtk2 and gtk3 are available (default is 3)]),
-		[WANT_GTK_VERSION=$withval],
-        [WANT_GTK_VERSION=3])
-
 if test "$enable_debug" = "yes"; then
   AC_DEFINE(ENABLE_DEBUG,1,[Define this to enable the debug facility in libscim])
   CFLAGS="$CFLAGS -g"
@@ -165,7 +170,7 @@ SCIM_INPUT_PAD_USER_DATADIR=/.scim/input-pad
 AC_SUBST(SCIM_INPUT_PAD_DATADIR)
 AC_SUBST(SCIM_INPUT_PAD_USER_DATADIR)
 
-AC_CONFIG_FILES([Makefile intl/Makefile po/Makefile.in m4/Makefile 
+AC_CONFIG_FILES([Makefile po/Makefile.in
 		data/Makefile
 		data/scim-input-pad
 		data/base.pad
