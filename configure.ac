@@ -52,7 +52,7 @@ AC_C_INLINE
 AC_TYPE_SIZE_T
 
 # Init gettext
-ALL_LINGUAS="zh_CN zh_TW pa ja de fr it nl"
+# ALL_LINGUAS="zh_CN zh_TW pa ja de fr it nl"
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.14.1])
 
